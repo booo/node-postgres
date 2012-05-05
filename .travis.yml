@@ -4,7 +4,6 @@ node_js:
   - 0.6
 
 before_install:
-  - sudo aptitude install postgresql-server-dev-9.1
-  - sudo -u postgres echo "ALTER USER postgres PASSWORD \'1234l\';" | psql
+  - psql -U postgres -c 'ALTER USER postgres PASSWORD \'1234\';'
 
 script: make test-all
