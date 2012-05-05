@@ -6,4 +6,7 @@ node_js:
 before_install:
   - psql -U postgres -c "ALTER USER postgres PASSWORD '1234';"
 
+before_script:
+  - node script/create-test-tables.js --password 1234
+
 script: make test-all
