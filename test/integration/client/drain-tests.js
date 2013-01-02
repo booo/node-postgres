@@ -53,3 +53,23 @@ pg.connect(helper.config, assert.success(function(client) {
   });
 }));
 
+
+pg.connect(helper.config, assert.success(function(client){
+  var drainCount = 0;
+  client.on('drain', function(){
+    drainCount++;
+    assert.equal(drainCount, 1);
+  });
+  client.pauseDrain();
+  client.query('SELECT NOW()', function(err, result){
+    setTimeout(
+      function(){
+        client.query('SELECT NOW()', function(err, result) {
+          client.resumeDrain();
+        });
+      },
+      1000
+    );
+  });
+}));
+
