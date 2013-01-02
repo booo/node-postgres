@@ -58,7 +58,7 @@ pg.connect(helper.config, assert.success(function(client){
   var drainCount = 0;
   client.on('drain', function(){
     drainCount++;
-    assert.equal(drainCount, 1);
+    assert.equal(drainCount, 1, "more then one drain event emitted");
   });
   client.pauseDrain();
   client.query('SELECT NOW()', function(err, result){
