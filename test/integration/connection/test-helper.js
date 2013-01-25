@@ -1,16 +1,23 @@
 var net = require('net');
 var helper = require(__dirname+'/../test-helper');
 var Connection = require(__dirname + '/../../../lib/connection');
+var ConnectionParameters = require(__dirname + '/../../../lib/connection-parameters');
 var md5 = require(__dirname + '/../../../lib/utils').md5;
 var connect = function(callback) {
   var username = helper.args.user;
   var database = helper.args.database;
-  var con = new Connection({stream: new net.Stream()});
+  var con = new Connection(
+      new ConnectionParameters({
+        port: helper.args.port || 5432,
+        host: helper.args.host || 'localhost'
+      }),
+      new net.Stream()
+  );
   con.on('error', function(error){
     console.log(error);
     throw new Error("Connection error");
   });
-  con.connect(helper.args.port || '5432', helper.args.host || 'localhost');
+  con.connect();
   con.once('connect', function() {
     con.startup({
       user: username,

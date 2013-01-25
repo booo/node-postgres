@@ -1,8 +1,12 @@
 require(__dirname+'/test-helper');
+var ConnectionParameters = require(__dirname + '/../../../lib/connection-parameters');
 var Connection = require(__dirname + '/../../../lib/connection');
+
+var params = new ConnectionParameters({ host: 'bang', port: 1234});
+
 test('connection can take existing stream', function() {
   var stream = new MemoryStream();
-  var con = new Connection({}, stream);
+  var con = new Connection(params, stream);
   assert.equal(con.stream, stream);
 });
 
@@ -13,12 +17,12 @@ test('using closed stream', function() {
     this.connectCalled = true;
     this.port = port;
     this.host = host;
-  }
+  };
 
-  var con = new Connection({}, stream);
+  var con = new Connection(params, stream);
 
-  con.connect(1234, 'bang');
-  
+  con.connect();
+
   test('makes stream connect', function() {
     assert.equal(stream.connectCalled, true);
   });
@@ -51,7 +55,7 @@ test('using opened stream', function() {
   stream.connect = function() {
     assert.ok(false, "Should not call open");
   };
-  var con = new Connection({}, stream);
+  var con = new Connection(params, stream);
   test('does not call open', function() {
     var hit = false;
     con.once('connect', function() {

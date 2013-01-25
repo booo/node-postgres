@@ -64,7 +64,7 @@ test('calls connect correctly on connection', function() {
   var client = new Client("/tmp");
   var usedPort = "";
   var usedHost = "";
-  client.connection.connect = function(port, host) {
+  client.connection.stream.connect = function(port, host) {
     usedPort = port;
     usedHost = host;
   };
