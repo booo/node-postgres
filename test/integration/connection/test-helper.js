@@ -1,6 +1,7 @@
 var net = require('net');
 var helper = require(__dirname+'/../test-helper');
 var Connection = require(__dirname + '/../../../lib/connection');
+var md5 = require(__dirname + '/../../../lib/utils').md5;
 var connect = function(callback) {
   var username = helper.args.user;
   var database = helper.args.database;
@@ -21,8 +22,8 @@ var connect = function(callback) {
     con.once('authenticationMD5Password', function(msg){
       //need js client even if native client is included
       var client = require(__dirname +"/../../../lib/client");
-      var inner = client.md5(helper.args.password+helper.args.user);
-      var outer = client.md5(inner + msg.salt.toString('binary'));
+      var inner = md5(helper.args.password+helper.args.user);
+      var outer = md5(inner + msg.salt.toString('binary'));
       con.password("md5"+outer);
     });
     con.once('readyForQuery', function() {

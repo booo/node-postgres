@@ -1,4 +1,5 @@
-require(__dirname + '/test-helper')
+require(__dirname + '/test-helper');
+var md5 = require('../../../lib/utils').md5;
 test('md5 authentication', function() {
   var client = createClient();
   client.password = "!";
@@ -8,12 +9,12 @@ test('md5 authentication', function() {
   test('responds', function() {
     assert.lengthIs(client.connection.stream.packets, 1);
     test('should have correct encrypted data', function() {
-      var encrypted = Client.md5(client.password + client.user);
-      encrypted = Client.md5(encrypted + salt.toString('binary'));
-      var password = "md5" + encrypted
+      var encrypted = md5(client.password + client.user);
+      encrypted = md5(encrypted + salt.toString('binary'));
+      var password = "md5" + encrypted;
       //how do we want to test this?
       assert.equalBuffers(client.connection.stream.packets[0], new BufferList()
-                        .addCString(password).join(true,'p'))
+                        .addCString(password).join(true,'p'));
     });
   });
 
