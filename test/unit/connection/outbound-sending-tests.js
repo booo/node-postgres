@@ -1,9 +1,7 @@
 require(__dirname + "/test-helper");
 var Connection = require(__dirname + '/../../../lib/connection');
 var stream = new MemoryStream();
-var con = new Connection({
-  stream: stream
-});
+var con = new Connection({}, stream);
 
 assert.received = function(stream, buffer) {
   assert.lengthIs(stream.packets, 1);

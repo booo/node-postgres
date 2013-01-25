@@ -21,7 +21,7 @@ createClient = function() {
   var stream = new MemoryStream();
   stream.readyState = "open";
   var client = new Client({
-    connection: new Connection({stream: stream})
+    connection: new Connection({}, stream)
   });
   client.connect();
   return client;
