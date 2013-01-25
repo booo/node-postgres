@@ -3,7 +3,7 @@ require(__dirname+'/test-helper');
 test('cleartext password authentication', function(){
 
   var client = createClient();
-  client.password = "!";
+  client.connectionParameters.password = "!";
   client.connection.stream.packets = [];
   client.connection.emit('authenticationCleartextPassword');
   test('responds with password', function() {

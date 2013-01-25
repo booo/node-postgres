@@ -19,7 +19,7 @@ test('default values', function() {
   })
   test('are used in new clients', function() {
     var client = new pg.Client();
-    assert.same(client,{
+    assert.same(client.connectionParameters,{
       user: process.env.USER,
       database: process.env.USER,
       password: null,
@@ -40,7 +40,7 @@ if(!helper.args.native) {
 
     test('are passed into created clients', function() {
       var client = new Client();
-      assert.same(client,{
+      assert.same(client.connectionParameters,{
         user: 'boom',
         password: 'zap',
         database: 'pow',
