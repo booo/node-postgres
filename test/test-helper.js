@@ -5,6 +5,7 @@ var EventEmitter = require('events').EventEmitter;
 var sys = require('util');
 var BufferList = require(__dirname+'/buffer-list')
 
+ConnectionParameters = require(__dirname + '/../lib/connection-parameters');
 var Connection = require(__dirname + '/../lib/connection');
 
 Client = require(__dirname + '/../lib').Client;

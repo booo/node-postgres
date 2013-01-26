@@ -115,7 +115,7 @@ var testForMessage = function(buffer, expectedMessage) {
   var lastMessage = {};
   test('recieves and parses ' + expectedMessage.name, function() {
     var stream = new MemoryStream();
-    var client = new Connection({}, stream);
+    var client = new Connection(new ConnectionParameters(), stream);
     client.connect();
 
     client.on('message',function(msg) {
@@ -354,7 +354,7 @@ test('split buffer, single message parsing', function() {
   var fullBuffer = buffers.dataRow([null, "bang", "zug zug", null, "!"]);
   var stream = new MemoryStream();
   stream.readyState = 'open';
-  var client = new Connection({}, stream);
+  var client = new Connection(new ConnectionParameters(), stream);
   client.connect();
   var message = null;
   client.on('message', function(msg) {
@@ -411,7 +411,7 @@ test('split buffer, multiple message parsing', function() {
 
   var messages = [];
   var stream = new MemoryStream();
-  var client = new Connection({}, stream);
+  var client = new Connection(new ConnectionParameters(), stream);
   client.connect();
   client.on('message', function(msg) {
     messages.push(msg);

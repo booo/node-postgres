@@ -1,38 +1,17 @@
 var net = require('net');
-var helper = require(__dirname+'/../test-helper');
+var helper = require(__dirname + '/../test-helper');
 var Connection = require(__dirname + '/../../../lib/connection');
 var ConnectionParameters = require(__dirname + '/../../../lib/connection-parameters');
 var md5 = require(__dirname + '/../../../lib/utils').md5;
 var connect = function(callback) {
-  var username = helper.args.user;
-  var database = helper.args.database;
-  var con = new Connection(
-      new ConnectionParameters({
-        port: helper.args.port || 5432,
-        host: helper.args.host || 'localhost'
-      }),
-      new net.Stream()
-  );
+  var params = new ConnectionParameters(helper.config);
+  var con = new Connection(params);
   con.on('error', function(error){
     console.log(error);
     throw new Error("Connection error");
   });
   con.connect();
   con.once('connect', function() {
-    con.startup({
-      user: username,
-      database: database
-    });
-    con.once('authenticationCleartextPassword', function(){
-      con.password(helper.args.password);
-    });
-    con.once('authenticationMD5Password', function(msg){
-      //need js client even if native client is included
-      var client = require(__dirname +"/../../../lib/client");
-      var inner = md5(helper.args.password+helper.args.user);
-      var outer = md5(inner + msg.salt.toString('binary'));
-      con.password("md5"+outer);
-    });
     con.once('readyForQuery', function() {
       con.query('create temp table ids(id integer)');
       con.once('readyForQuery', function() {

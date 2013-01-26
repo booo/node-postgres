@@ -1,7 +1,7 @@
 var helper = require(__dirname+'/../test-helper');
 var Connection = require(__dirname + '/../../../lib/connection');
 var makeClient = function() {
-  var connection = new Connection({stream: "no"});
+  var connection = new Connection(new ConnectionParameters(), "foo");
   connection.startup = function() {};
   connection.connect = function() {};
   connection.query = function(text) {
