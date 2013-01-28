@@ -5,7 +5,7 @@ helper.pg = pg;
 //first make pool hold 2 clients
 helper.pg.defaults.poolSize = 2;
 
-var killIdleQuery = 'SELECT procpid, (SELECT pg_terminate_backend(procpid)) AS killed FROM pg_stat_activity WHERE current_query LIKE \'<IDLE>\'';
+var killIdleQuery = 'SELECT pid, (SELECT pg_terminate_backend(pid)) AS killed FROM pg_stat_activity WHERE state LIKE \'idle\'';
 
 //get first client
 helper.pg.connect(helper.config, assert.success(function(client) {
